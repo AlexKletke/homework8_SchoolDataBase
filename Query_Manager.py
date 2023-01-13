@@ -39,7 +39,8 @@ def request_processing():
             if choice_query == 6:
                 a = input("введите номер интересующего класса (только цифру): ")
                 b = input("введите букву интересующего класса: ")
-                if temp[6] == a and temp[7] == b:
+                b.lower()
+                if temp[6] == a and temp[7] == b.lower():
                     result += temp[0] + ' ' + temp[1] + ' ' + temp[2] + '\n'
         return result
 
