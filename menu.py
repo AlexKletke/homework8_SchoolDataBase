@@ -1,45 +1,77 @@
 from import_data import import_data
+from delete_data import delete_data
 from export_data import export_data
-from print_data import print_data
+from redact_data import redact_data
+from Query_Manager import request_processing
 
 def greeting():
     print("Добро пожаловать в информационную систему, позволяющую работать с учениками школы")
 
-def input_data():
-    last_name = input("Введите фамилию ученика: ")
-    first_name = input("Введите имя ученика: ")
-    patronymic_name = input("Введите отчество ученика: ")
-    birthday_student = input("Введите дату рождения ученика: ")
-    academic_performance = input("Успеваемость ученика (удовл, хор, отл): ")
-    sex_student = input("Введите пол ученика (муж, жен): ")
-    class_number = input("Введите номер класса ученика: ")
-    class_letter = input("Введите букву класса ученика: ")
-    return [last_name, first_name, patronymic_name, birthday_student, academic_performance, sex_student, class_number, class_letter]
+def input_data(table):
+    #table = choice_table()
+    str_dataofstudent = ''
+    if table == 1:
+        last_name = input("Введите фамилию ученика: ")
+        str_dataofstudent += last_name + ' '
+        first_name = input("Введите имя ученика: ")
+        str_dataofstudent += first_name + ' '
+        patronymic_name = input("Введите отчество ученика: ")
+        str_dataofstudent += patronymic_name + ' '
+        birthday_student = input("Введите дату рождения ученика: ")
+        str_dataofstudent += birthday_student + ' '
+        academic_performance = input("Успеваемость ученика (удовл, хор, отл): ")
+        str_dataofstudent += academic_performance + ' '
+        sex_student = input("Введите пол ученика (муж, жен): ")
+        str_dataofstudent += sex_student + ' '
+        class_number = input("Введите номер класса ученика: ")
+        str_dataofstudent += class_number + ' '
+        class_letter = input("Введите букву класса ученика: ")
+        str_dataofstudent += class_letter
+        return str_dataofstudent#[last_name, first_name, patronymic_name, birthday_student, academic_performance, sex_student, class_number, class_letter]
+    elif table == 2:
+        Lesson_name = input("Введите название урока: ")
+        return Lesson_name
+    elif table == 3:
+        class_number = input("Введите номер класса: ")
+        class_letter = input("Введите букву класса: ")
+        return [class_number, class_letter]
+    else:
+        print('введите, пожалуйста, номер таблицы с 1 до 3')
+        table = choice_table()
 
-def choice_separator():
-    separator = input("Есть 2 варианта записи. Введите разделитель: ")
-    if separator == "":
-        separator = None
-    return separator
-
+def choice_table():
+    table = int(input("Есть 3 таблицы данных: 1 - таблица учеников школы; 2 - таблица всех уроков в школе; 3 - таблица всех классов в школе. Какая таблица вас интересует: "))    
+    return table
+def choice_id_line():
+    id_line = int(input("Введите номер id записи для удаления или корректировки (номер): "))
+    return id_line
 def school_InfSystem_functionality():
     print("Что вы можете сделать:\n\
     1 - добавление данных;\n\
     2 - удаление данных;\n\
     3 - корректировка данных;\n\
-    4 - вывод всех данных;\n\
-    5 - вывод всех ФИО учеников первых классов;\n\
-    6 - вывод всех дней рождения учеников;\n\
-    7 - вывод плохой успеваемости учеников;\n\
-    8 - вывод мальчиков учеников;\n\
-    9 - вывод номеров класса, где есть девочки;\n\
-    10 - вывод учеников 2Б класса.")
+    4 - вывод данных;\n\
+    5 - выборка данных, запросы.")
     choice = input(" Что вы хотите сделать - введите цифру: ")
     if choice == '1':
-        separator = choice_separator()
-        import_data(input_data(), separator)
+        table = choice_table()        
+        import_data(input_data(table), table)
     elif choice == '2':
-        separator = choice_separator()
-        export_data(separator)
-        data = export_data(separator)
-        print_data(data, separator)
+        table = choice_table()
+        id_line = choice_id_line()
+        delete_data(table, id_line)
+    elif choice == '3':
+        table = choice_table()
+        id_line = choice_id_line()
+        redact_data(table, id_line)
+    elif choice == '4':
+        table = choice_table()
+        #export_data(table)
+        #data = export_data(table)
+        print(*export_data(table))
+    elif choice == '5':
+        #result1 = ''
+        #request_processing()
+        data = request_processing()
+        print(data)
+        
